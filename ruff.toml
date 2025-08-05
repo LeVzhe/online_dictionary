@@ -1,0 +1,75 @@
+exclude = [
+    "migrations",
+    "run",
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "README",
+    "manage.py",
+    "poetry.lock",
+    ".toml",
+    ".env",
+    ".env.example",
+    "Dockerfile",
+    "compose.yml",
+    ".sh",
+    ".json",
+    "__init__.py",
+    "settings.py",
+]
+
+line-length = 110
+indent-width = 4
+target-version = "py312"
+show-fixes = true
+preview = true
+
+[format]
+preview = true
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[lint]
+preview = true
+select = [
+    "F", "E", "W", "C90", "UP",
+    "N", "YTT", "S", "BLE", "FBT",
+    "B", "A", "C4", "T20", "Q",
+    "RET", "SIM", "ARG", "ERA",
+    "PGH"
+]
+ignore = [
+    "S101", "N818", "UP038", "UP008", "RET504",
+    "UP038", "BLE001", "ARG002", "ARG001", "FBT001",
+    "C901", "FBT002", "C419", "S311",
+]
+
+[lint.pydocstyle]
+convention = "google"
