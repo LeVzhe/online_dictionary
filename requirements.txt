@@ -1,2 +1,6 @@
+asgiref==3.9.1
+backports.ssl_match_hostname==3.7.0.1
 Django==5.1.4
+django-extensions==4.1
 djangorestframework==3.15.2
+sqlparse==0.5.3
