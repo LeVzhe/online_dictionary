@@ -28,6 +28,13 @@ case "$1" in
         cd deploy || exit
         docker compose down
         ;;
+# Для линтера
+    lint)
+        echo "Run Linter..."
+        cd deploy || exit
+        docker compose exec web-app ruff check --fix --extend-select I .
+        ;;
+
 # Для сервисов джанго
     manage)
         cd deploy || exit
