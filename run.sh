@@ -42,6 +42,18 @@ case "$1" in
         echo "Executing manage.py command in the container..."
         docker compose exec web-app python manage.py "$@"
         ;;
+    shell)
+        cd deploy || exit
+        docker compose exec web-app python manage.py shell -i ipython
+        ;;
+# Установка зависимости
+    pip)
+        shift # Сдвигаем аргументы влево, чтобы $2 стал $1, $3 стал $2 и т.д.
+        echo "Installing requirements..."
+        pip install "$@"
+        pip freeze > requirements.txt
+        echo "Installing requirements COMPLETE"
+        ;;
     *)
         echo "Unknown command: $1"
         exit 1
