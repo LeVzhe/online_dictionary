@@ -10,11 +10,12 @@ services:
       - DB_NAME=dbname
       - DB_USER=dbuser
       - DB_PASS=password
-    depends_on: 
+    depends_on:
       db:
         condition: service_healthy
     volumes:
       - ../project:/app
+    command: python -u manage.py runserver 0.0.0.0:8000  # Добавьте команду запуска здесь
 
   db:
     image: postgres:17-alpine

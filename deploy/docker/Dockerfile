@@ -38,6 +38,3 @@ RUN find /app -type d -name "__pycache__" -exec rm -rf {} + && \
     rm -rf /app/.git /app/.ruff_cache
 
 EXPOSE 8000
-
-# Запуск приложения
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

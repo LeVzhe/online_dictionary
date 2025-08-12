@@ -1,0 +1,1 @@
+from .custom_decorator import get_drf_spectacular_view_decorator
