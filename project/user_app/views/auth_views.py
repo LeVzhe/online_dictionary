@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import (
     decorators,
     response,
@@ -6,10 +8,14 @@ from rest_framework import (
 )
 from rest_framework.permissions import AllowAny
 
-from user_app import models as user_app_models
+from api.v1.api_docs import get_drf_spectacular_view_decorator
 from user_app import serializers as user_app_serializers
+from user_app import services as user_app_services
+
+logger = logging.getLogger(__name__)
 
 
+@get_drf_spectacular_view_decorator("user_app")
 class AuthViewset(viewsets.GenericViewSet):
     permission_classes = [AllowAny]
 
@@ -27,11 +33,11 @@ class AuthViewset(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
 
         validated_data = serializer.validated_data
-        user = user_app_models.User.objects.create_user(
-            username=validated_data["login"],
-            email=validated_data["email"],
-            password=validated_data["password"],
-        )
-        user.save()
+        register_data_dto = user_app_services.AuthService.register_user(data=validated_data)
+        user_serializer = user_app_serializers.UserSerializer(register_data_dto)
 
-        return response.Response({"message": "User registered successfully."}, status=status.HTTP_201_CREATED)
+        logger.info(f"Пользователь {user_serializer.data['login']} был зарегистрирован.")
+        return response.Response(
+            data=user_serializer.data,
+            status=status.HTTP_201_CREATED,
+        )
