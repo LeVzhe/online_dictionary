@@ -5,7 +5,7 @@ from drf_spectacular.utils import (
     extend_schema_view,
 )
 
-from user_app import serializers as user_app_serializers
+from apps.user_app import serializers as user_app_serializers
 
 auth_tags = ["auth"]
 

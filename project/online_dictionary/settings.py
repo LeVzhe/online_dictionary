@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 ]
 
 DICTIONARY_APPS = [
-    "user_app.apps.UserAppConfig",
+    "apps.user_app.apps.UserAppConfig",
 ]
 
 INSTALLED_APPS += DICTIONARY_APPS

@@ -1,6 +1,6 @@
 import logging
 
-from user_app import repositories as user_app_repositories
+from apps.user_app import repositories as user_app_repositories
 from utils import exceptions
 
 logger = logging.getLogger(__name__)

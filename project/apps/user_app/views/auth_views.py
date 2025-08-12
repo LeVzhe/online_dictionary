@@ -8,9 +8,9 @@ from rest_framework import (
 )
 from rest_framework.permissions import AllowAny
 
-from api.v1.api_docs import get_drf_spectacular_view_decorator
-from user_app import serializers as user_app_serializers
-from user_app import services as user_app_services
+from apps.api.v1.api_docs import get_drf_spectacular_view_decorator
+from apps.user_app import serializers as user_app_serializers
+from apps.user_app import services as user_app_services
 
 logger = logging.getLogger(__name__)
 

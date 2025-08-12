@@ -1,5 +1,5 @@
-from user_app import models as user_app_models
-from user_app.dtos.convert_to_dto import convert_registered_user_to_dto
+from apps.user_app import models as user_app_models
+from apps.user_app.dtos.convert_to_dto import convert_registered_user_to_dto
 
 
 class AuthRepository:

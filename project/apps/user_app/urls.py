@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from user_app import views as user_app_views
+from apps.user_app import views as user_app_views
 
 auth_router = DefaultRouter()
 

@@ -2,7 +2,7 @@ import logging
 
 from django.core.exceptions import ValidationError
 
-from user_app import dtos as user_app_dtos
+from apps.user_app import dtos as user_app_dtos
 
 logger = logging.getLogger(__name__)
 
