@@ -31,7 +31,9 @@ COPY --from=builder /app /app
 
 # Обеспечиваем доступность скриптов
 ENV PATH=/root/.local/bin:$PATH \
-    PYTHONPATH=/app
+    PYTHONPATH=/app:/app/online_dictionary
+# ENV PATH=/root/.local/bin:$PATH \
+#     PYTHONPATH=/app
 
 # Чистка ненужных файлов (но оставляем .pre-commit-config.yaml)
 RUN find /app -type d -name "__pycache__" -exec rm -rf {} + && \

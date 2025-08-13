@@ -3,7 +3,7 @@ from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework import routers
 
-from user_app import urls as user_app_routers
+from apps.user_app import urls as user_app_routers
 
 router = routers.DefaultRouter()
 
