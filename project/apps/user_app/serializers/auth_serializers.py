@@ -50,21 +50,6 @@ class RegistrationSerializer(serializers.Serializer):
         style={"input_type": "password"},
     )
 
-    def validate_login(self, value):  # ?! вынести в сервисы
-        if user_app_models.User.objects.filter(username=value).exists():
-            raise serializers.ValidationError("Пользователь с таким именем уже существует.")
-        return value
-
-    def validate_email(self, value):  # ?! вынести в сервисы
-        if user_app_models.User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("Пользователь с таким емейлом уже существует.")
-        return value
-
-    def validate(self, data):  # ?! вынести в сервисы
-        if data["password"] != data["password_confirm"]:
-            raise serializers.ValidationError({"password_confirm": "Поля паролей должны совпадать."})
-        return data
-
 
 class LoginUsingUsernamePassword(serializers.Serializer):
     login = serializers.CharField(
