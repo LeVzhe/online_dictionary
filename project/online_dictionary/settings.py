@@ -113,6 +113,8 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
+JWT_SECRET = "4002836b0588934ca60261613c782ea4a21dcaa9232460ca099ea540ff8201385b1e976fb2f7d7db483492a438e4d2f8158ee30fb48195daf53922bc2416b2be2d79dc4d493adf8f6ee51666f309d68fa1c2036cdf01b1e18d640328e00f9fd7338a55b0a741bd3fcfec644c1b942134ac91329d91d63b9336d7b6b0287483262c24e86e122e6c3b0bc43505b63e519d5fa9f1f7cb22cc171e110da91f1a1e855c6678663e726447241386aac0741eb2b6497df7473fb98aea0b60d8f460db35c521eca699bdaeb1e286da0770a21d5f9c8ce5e5756e29e3ba90736fe478fecff59030d903dbf125425765c67bcb48849dbeba829ef95462faf894265c13fc7e"
+
 USE_I18N = True
 
 USE_TZ = True
@@ -132,6 +134,9 @@ AUTH_USER_MODEL = 'user_app.User'
 
 # drf_spectacular
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "apps.user_app.utils.auth.backends.JWTHeaderAuthentication",
+    ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"], #!!!
     "COERCE_DECIMAL_TO_STRING": False,
@@ -183,3 +188,4 @@ LOGGING = {
         },
     },
 }
+
