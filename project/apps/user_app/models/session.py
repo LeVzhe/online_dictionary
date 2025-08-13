@@ -1,14 +1,12 @@
-import uuid
 import datetime
-import jwt
+import uuid
 
+import jwt
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from apps.user_app.models.user import User
 from utils.base_model import BaseDjangoModel
-
 
 __all__ = [
     "Session",
@@ -39,7 +37,7 @@ class Session(
             "-pk",
         )
 
-    user: models.ForeignKey[User, User] = models.ForeignKey(
+    user = models.ForeignKey(
         to="user_app.User",
         related_name="sessions",
         verbose_name="Владелец сессии",

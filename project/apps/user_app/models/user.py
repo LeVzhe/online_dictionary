@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
-from utils import BaseDataModel, UserManager
+from utils.base_model import BaseDataModel
+from utils.managers import UserManager
 
 
 class User(AbstractUser, BaseDataModel):
@@ -45,3 +46,12 @@ class User(AbstractUser, BaseDataModel):
     REQUIRED_FIELDS = ["email"]
 
     objects = UserManager()
+
+    def create_session(
+        self,
+        *,
+        user_agent: str,
+    ):
+        from .session import Session
+
+        return Session.objects.create(user=self, user_agent=user_agent)

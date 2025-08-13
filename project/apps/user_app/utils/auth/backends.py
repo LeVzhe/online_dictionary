@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import NamedTuple
-import jwt
 
+import jwt
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy as _
@@ -10,13 +10,14 @@ from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed, NotAuthenticated
 
 from apps.user_app import models as user_app_models
+from apps.user_app.models.session import Session
 
 HTTP_HEADER_ENCODING = "iso-8859-1"
 
 
 class UserAuth(NamedTuple):
     user: user_app_models.User
-    session: user_app_models.Session
+    session: Session
 
     def __str__(self):
         return f"{self.user}, {self.session}"
@@ -47,11 +48,11 @@ class JWTBaseAuthentication(BaseAuthentication, ABC):
             raise NotAuthenticated(_("Не удалось корректно декодировать токен пользователя")) from None
 
         try:
-            session = user_app_models.Session.objects.select_related("user").get(
+            session = Session.objects.select_related("user").get(
                 unique_key=decoded_token.get("unique_key"), is_active=True
             )
             return session.user, session
-        except user_app_models.Session.DoesNotExist:
+        except Session.DoesNotExist:
             raise NotAuthenticated(_("Пользователь не найден или сессия истекла")) from None
 
 

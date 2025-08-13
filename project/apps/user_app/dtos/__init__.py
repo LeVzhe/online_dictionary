@@ -1,1 +1,1 @@
-from .auth_dtos import UserDTO
+from .auth_dtos import UserDTO, LoginUsingUsernamePasswordDto
