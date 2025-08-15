@@ -8,7 +8,7 @@ __all__ = ["CustomUserAdmin"]
 
 class CustomUserAdmin(UserAdmin):
     # Определяем поля, которые будут отображаться в списке пользователей
-    list_display = ("username", "email", "is_staff")
+    list_display = ("username", "email", "is_staff", "is_archived")
 
     # Определяем поля для поиска
     search_fields = ("username", "email")
@@ -20,12 +20,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (
             "Personal info",
-            {
-                "fields": (
-                    "username",
-                    "email",
-                )
-            },
+            {"fields": ("username", "email", "is_archived")},
         ),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),

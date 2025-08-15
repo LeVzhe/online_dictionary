@@ -46,5 +46,13 @@ USER_APP_DECORATORS = {
                 HTTPStatus.ACCEPTED: user_app_serializers.CurrentUserSerializer,
             },
         ),
+        get_list_of_users=extend_schema(
+            tags=user_tags,
+            summary="Вывести пользователей по фильтрам",
+            parameters=[user_app_serializers.UserQueryParamsSerializers()],
+            responses={
+                HTTPStatus.OK: user_app_serializers.ListUsersSerializer(many=True),
+            },
+        ),
     ),
 }

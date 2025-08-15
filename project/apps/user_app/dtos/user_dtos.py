@@ -8,3 +8,11 @@ class CurrentUserDTO(pydantic.BaseModel):
     login: str
     email: str
     created_at: datetime.datetime
+
+
+class ListUsersDTO(pydantic.BaseModel):
+    id: int
+    login: str
+    email: str
+    created_at: datetime.datetime
+    updated_at: datetime.datetime

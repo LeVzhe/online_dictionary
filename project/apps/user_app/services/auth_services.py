@@ -6,7 +6,7 @@ from rest_framework.serializers import ValidationError
 
 from apps.user_app import models as user_app_models
 from apps.user_app import repositories as user_app_repositories
-from utils import exceptions
+from utils.exceptions import BadRequest
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class AuthService:
             return user_app_repositories.AuthRepository.create_register_user(data=data)
         except Exception as err:
             logger.exception("Ошибка при обработке данных пользователя.")
-            raise exceptions.BadRequest(detail="Ошибка при обработке данных пользователя.") from err
+            raise BadRequest(detail="Ошибка при обработке данных пользователя.") from err
 
     @staticmethod
     def login_using_username_password(dto):

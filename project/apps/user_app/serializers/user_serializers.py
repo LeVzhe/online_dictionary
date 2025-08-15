@@ -22,3 +22,10 @@ class CurrentUserSerializer(serializers.Serializer):
         help_text="Дата регистрации пользователя",
         read_only=True,
     )
+
+
+class ListUsersSerializer(CurrentUserSerializer):
+    updated_at = serializers.DateTimeField(
+        help_text="Дата обновления пользователя",
+        read_only=True,
+    )
