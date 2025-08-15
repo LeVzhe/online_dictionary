@@ -7,7 +7,8 @@ from drf_spectacular.utils import (
 
 from apps.user_app import serializers as user_app_serializers
 
-auth_tags = ["auth"]
+auth_tags = ["Auth"]
+user_tags = ["User"]
 
 
 USER_APP_DECORATORS = {
@@ -34,6 +35,15 @@ USER_APP_DECORATORS = {
             request=None,
             responses={
                 HTTPStatus.OK: user_app_serializers.GenericResponseSerializer,
+            },
+        ),
+    ),
+    "UserViewset": extend_schema_view(
+        get_current_user=extend_schema(
+            tags=user_tags,
+            summary="Показать текущего пользователя",
+            responses={
+                HTTPStatus.ACCEPTED: user_app_serializers.CurrentUserSerializer,
             },
         ),
     ),

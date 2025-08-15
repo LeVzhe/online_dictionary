@@ -1,1 +1,1 @@
-from .convert_user_to_dto import convert_registered_user_to_dto
+from .convert_user_to_dto import convert_registered_user_to_dto, convert_row_to_user_dto
