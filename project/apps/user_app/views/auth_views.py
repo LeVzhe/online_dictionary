@@ -19,6 +19,10 @@ from utils.user_agent import get_user_agent
 
 logger = logging.getLogger(__name__)
 
+__all__ = [
+    "AuthViewset",
+]
+
 
 @get_drf_spectacular_view_decorator("user_app")
 class AuthViewset(viewsets.GenericViewSet):

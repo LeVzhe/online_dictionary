@@ -11,6 +11,7 @@ API_V1_URL_PATH = "api/"
 
 registries = [
     user_app_routers.auth_router.registry,
+    user_app_routers.user_router.registry,
 ]
 
 for registry in registries:
