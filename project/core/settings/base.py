@@ -163,27 +163,51 @@ SPECTACULAR_SETTINGS = {
 
 
 # LOGGING
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "standard": {
-            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            "datefmt": "%d/%b/%Y %H:%M:%S",
+import logging
+import logging.config
+
+from django.utils.log import DEFAULT_LOGGING
+
+logger = logging.getLogger(__name__)
+
+LOG_LEVEL = "INFO"
+
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "console": {
+                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
+            },
+            "file": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"},
+            "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
         },
-    },
-    "handlers": {
-        "console": {
-            "level": "INFO",
-            "formatter": "standard",
-            "class": "logging.StreamHandler",
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "console",
+            },
+            "file": {
+                "level": "INFO",
+                "class": "logging.FileHandler",
+                "formatter": "file",
+                "filename": "logs/real_estate.log",
+            },
+            "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
         },
-    },
-    "loggers": {
-        "": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": True,
+        "loggers": {
+            "": {
+                "level": "INFO",
+                "handlers": ["console", "file"],
+                "propogate": False,
+            },
+            "apps": {
+                "level": "INFO",
+                "handlers": ["console"],
+                "propogate": False,
+            },
+            "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
         },
-    },
-}
+    }
+)
