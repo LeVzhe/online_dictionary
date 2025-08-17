@@ -22,6 +22,8 @@ case "$1" in
         echo "Starting Docker Compose with force recreate..."
         cd deploy || exit
         docker compose up -d --force-recreate
+        docker compose exec web-app python manage.py migrate --no-input
+        docker compose exec web-app python manage.py collectstatic --no-input
         ;;
     down)
         echo "Closing Docker Compose..."

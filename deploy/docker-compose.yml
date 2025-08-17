@@ -2,9 +2,9 @@ services:
   web-app:
     build:
       context: ..
-      dockerfile: ./deploy/docker/Dockerfile
-    ports:
-      - "8000:8000"
+      dockerfile: ./deploy/docker/django/Dockerfile
+    # ports:
+    #   - "8000:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=dbname
@@ -15,7 +15,11 @@ services:
         condition: service_healthy
     volumes:
       - ../project:/app
-    command: python -u manage.py runserver 0.0.0.0:8000  # Добавьте команду запуска здесь
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    networks:
+      - onlinedict-react 
+    command: python -u manage.py runserver 0.0.0.0:8000
 
   db:
     image: postgres:17-alpine
@@ -30,6 +34,29 @@ services:
       retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - onlinedict-react
+    
+  nginx:
+    restart: always
+    depends_on:
+      - web-app
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/mediafiles
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8001:80"
+    networks:
+      - onlinedict-react
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
+
+networks:
+  onlinedict-react:
+    driver: bridge
