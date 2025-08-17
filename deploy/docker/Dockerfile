@@ -31,7 +31,7 @@ COPY --from=builder /app /app
 
 # Обеспечиваем доступность скриптов
 ENV PATH=/root/.local/bin:$PATH \
-    PYTHONPATH=/app:/app/online_dictionary
+    PYTHONPATH=/app:/app/core
 # ENV PATH=/root/.local/bin:$PATH \
 #     PYTHONPATH=/app
 
