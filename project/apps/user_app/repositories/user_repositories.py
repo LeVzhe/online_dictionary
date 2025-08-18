@@ -2,6 +2,7 @@ from django.db.models import Q
 
 from apps.user_app import models as user_app_models
 from apps.user_app.dtos.convert_to_dto import (
+    convert_row_to_user_by_id_dto,
     convert_row_to_user_dto,
     convert_row_to_user_list_dto,
 )
@@ -18,6 +19,11 @@ class UserRepository:
             filters &= Q(is_archived=True)
 
         return filters
+
+    @staticmethod
+    def get_user_by_id(user_id):
+        user = user_app_models.User.objects.get(id=user_id)
+        return convert_row_to_user_by_id_dto(user)
 
     @staticmethod
     def get_list_of_users_by_filters(query_params):

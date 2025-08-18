@@ -1,6 +1,11 @@
+import logging
+import logging.config
 from pathlib import Path
 
 import environ
+from django.utils.log import DEFAULT_LOGGING
+
+from .utils import DailyDirectoryRotatingFileHandler
 
 # django-environ
 env = environ.Env(
@@ -22,6 +27,11 @@ DEBUG = env("DEBUG")
 SHOULD_SHOW_DOCS = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8001",
+    "http://127.0.0.1:8001",
+    # Другие доверенные домены, если есть
+]
 
 
 # Application definition
@@ -114,9 +124,7 @@ AUTH_USER_MODEL = "user_app.User"
 
 # drf_spectacular
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "apps.user_app.utils.auth.backends.JWTHeaderAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("apps.user_app.utils.auth.backends.JWTHeaderAuthentication",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
@@ -140,9 +148,7 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "PREPROCESSING_HOOKS": ["drf_spectacular.hooks.preprocess_exclude_path_format"],
-    "POSTPROCESSING_HOOKS": [
-        "drf_standardized_errors.openapi_hooks.postprocess_schema_enums"
-    ],
+    "POSTPROCESSING_HOOKS": ["drf_standardized_errors.openapi_hooks.postprocess_schema_enums"],
     "COMPONENT_SPLIT_REQUEST": True,
     "ENUM_NAME_OVERRIDES": {
         "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",
@@ -163,51 +169,47 @@ SPECTACULAR_SETTINGS = {
 
 
 # LOGGING
-import logging
-import logging.config
-
-from django.utils.log import DEFAULT_LOGGING
 
 logger = logging.getLogger(__name__)
 
 LOG_LEVEL = "INFO"
 
-logging.config.dictConfig(
-    {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "formatters": {
-            "console": {
-                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
-            },
-            "file": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"},
-            "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
+logging.config.dictConfig({
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console": {
+            "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s",
         },
-        "handlers": {
-            "console": {
-                "class": "logging.StreamHandler",
-                "formatter": "console",
-            },
-            "file": {
-                "level": "INFO",
-                "class": "logging.FileHandler",
-                "formatter": "file",
-                "filename": "logs/real_estate.log",
-            },
-            "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
+        "file": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"},
+        "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "console",
         },
-        "loggers": {
-            "": {
-                "level": "INFO",
-                "handlers": ["console", "file"],
-                "propogate": False,
-            },
-            "apps": {
-                "level": "INFO",
-                "handlers": ["console"],
-                "propogate": False,
-            },
-            "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
+        "file": {
+            "level": "INFO",
+            "()": DailyDirectoryRotatingFileHandler,  # Используем наш кастомный обработчик
+            "formatter": "file",
+            "filename": "online_dictionary.log",
+            "maxBytes": 1024 * 1024,  # 1 MB
+            "backupCount": 5,  # Максимальное количество файлов
         },
-    }
-)
+        "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
+    },
+    "loggers": {
+        "": {
+            "level": "INFO",
+            "handlers": ["console", "file"],
+            "propagate": False,
+        },
+        "apps": {
+            "level": "INFO",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
+    },
+})

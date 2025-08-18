@@ -9,6 +9,7 @@ from .auth_serializers import (
 from .user_serializers import (
     CurrentUserSerializer,
     ListUsersSerializer,
+    UserByIdSerializer,
 )
 
 from .query_params_serializers import UserQueryParamsSerializers

@@ -8,7 +8,13 @@ __all__ = ["CustomUserAdmin"]
 
 class CustomUserAdmin(UserAdmin):
     # Определяем поля, которые будут отображаться в списке пользователей
-    list_display = ("username", "email", "is_staff", "is_archived")
+    list_display = (
+        "id",
+        "username",
+        "email",
+        "is_staff",
+        "is_archived",
+    )
 
     # Определяем поля для поиска
     search_fields = ("username", "email")

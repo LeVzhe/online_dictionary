@@ -29,3 +29,10 @@ class ListUsersSerializer(CurrentUserSerializer):
         help_text="Дата обновления пользователя",
         read_only=True,
     )
+
+
+class UserByIdSerializer(ListUsersSerializer):
+    is_archived = serializers.BooleanField(
+        help_text="Удален ли пользователь?",
+        read_only=True,
+    )
