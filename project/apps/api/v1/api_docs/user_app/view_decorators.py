@@ -54,5 +54,12 @@ USER_APP_DECORATORS = {
                 HTTPStatus.OK: user_app_serializers.ListUsersSerializer(many=True),
             },
         ),
+        get_user_by_id=extend_schema(
+            tags=user_tags,
+            summary="Вывести пользователя по его ID",
+            responses={
+                HTTPStatus.OK: user_app_serializers.UserByIdSerializer(),
+            },
+        ),
     ),
 }

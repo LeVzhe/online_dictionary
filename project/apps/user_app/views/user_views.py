@@ -70,3 +70,21 @@ class UserViewset(viewsets.GenericViewSet):
         serializer = self.get_serializer(filtered_users, many=True)
 
         return response.Response(serializer.data)
+
+    @decorators.action(
+        detail=True,
+        methods=["get"],
+        permission_classes=[IsAdminUser],
+        serializer_class=user_app_serializers.UserByIdSerializer,
+    )
+    def get_user_by_id(self, request, *args, **kwargs):
+        """Вывести пользователя по его ID"""
+        user_id = kwargs.get("pk")
+        user_dto = user_app_services.UserService.get_user_by_id(user_id)
+
+        serializer = self.get_serializer(user_dto)
+
+        return response.Response(
+            data=serializer.data,
+            status=status.HTTP_200_OK,
+        )
